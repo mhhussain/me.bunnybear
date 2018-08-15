@@ -1,0 +1,16 @@
+{
+  "name": "me.bunny.bear",
+  "version": "1.0.0",
+  "description": "Let's give it a shot.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "yes",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "heartbeats": "^5.0.1",
+    "slackbots": "^1.1.0"
+  }
+}
