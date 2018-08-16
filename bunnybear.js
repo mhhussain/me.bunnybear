@@ -31,9 +31,20 @@ const getchannels = () => {
     });
 };
 
-const speak = (where, what) => {
-    body.postMessageToChannel(where, what)
+const speak = (words) => {
+    body.postMessageToChannel(words.where, words.what)
 };
+
+
+// ****************************************************************************************
+// parts
+// ****************************************************************************************
+class spokenword {
+    constructor(where, what) {
+        this.where = where;
+        this.what = what;
+    }
+}
 
 // ****************************************************************************************
 // and here. we. go.
@@ -44,6 +55,6 @@ body.on('start', () => {
     // more needs to happen.
     // lets see what i have access to
     heart.createEvent(50, { name: 'heartbeat' }, () => {
-        speak(random.heartchannel, 'this is my heart beat.')
+        speak(new spokenword(random.heartchannel, 'this is my heart beat.'));
     });
 });
