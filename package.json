@@ -1,8 +1,8 @@
 {
-  "name": "me.bunny.bear",
+  "name": "me.bunnybear",
   "version": "1.0.0",
   "description": "Let's give it a shot.",
-  "main": "index.js",
+  "main": "bunnybear.js",
   "scripts": {
     "start": "node bunnybear.js"
   },
