@@ -4,7 +4,7 @@
   "description": "Let's give it a shot.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node bunnybear.js"
   },
   "author": "yes",
   "license": "ISC",
