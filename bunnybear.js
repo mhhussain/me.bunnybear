@@ -11,7 +11,9 @@ const axios = require('axios');
 // things science doesnt know yet
 var random = {
     slacktoken: 'xoxb-414980923588-416254894241-bgd20aDgjbDYyhCfsJ9F4Bry',
-    heartchannel: 'heart'
+    heartchannel: 'heart',
+    me: 'moohh91',
+    meuser: 'UC72G0ATD'
 }
 
 // housing
@@ -32,7 +34,8 @@ const getchannels = () => {
 };
 
 const speak = (words) => {
-    body.postMessageToChannel(words.where, words.what)
+    // body.postMessageToChannel(words.where, words.what)
+    body.postMessageToUser(words.where, words.what);
 };
 
 
@@ -54,7 +57,19 @@ body.on('start', () => {
     // these are comments...?
     // more needs to happen.
     // lets see what i have access to
-    heart.createEvent(50, { name: 'heartbeat' }, () => {
+    /*heart.createEvent(50, { name: 'heartbeat' }, () => {
         speak(new spokenword(random.heartchannel, 'this is my heart beat.'));
+    });*/
+    body.on('message', (noise) => {
+        if (noise.type !== 'message') {
+            // do nothing.
+            return;
+        }
+        if (noise.user !== random.meuser) {
+            // speak to no one.
+            return;
+        }
+
+        speak(new spokenword(random.me, 'hi.'));
     });
 });
