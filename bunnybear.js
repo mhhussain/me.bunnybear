@@ -17,7 +17,7 @@ const random = {
     me: 'moohh91',
     meuser: 'UC72G0ATD',
     mentalblocks: {
-        reasonblock: 'message',
+        reasonblock: 'message' ,
         userblock: true,
         decisionblock: say(),
         actionblock: speak(),
@@ -50,7 +50,7 @@ const body = new slackbots({
 
 // brain
 const brain = {
-    // ill try to keep this sim
+    // ill try to keep this simple
     purpose: purpose(),
     control: random.mentalblocks,
     forcedecision: true,
@@ -74,6 +74,7 @@ const brain = {
             reasoning.decisionpoint = true;
         }
 
+        // decision hook
         if (reasoning.decisionpoint) {
             brain.decide(reasoning);
         }
@@ -81,15 +82,15 @@ const brain = {
         return reasoning;
     },
     decide: (whatiunderstood) => {
-        // you can only make one decision
+        // you can only make a few decisions
         const whatineedtoknow = whatiunderstood;
         var decision = {};
 
         if (whatineedtoknow.thewhat == 'let me teach you something') {
             decision.thewhat = say();
             decision.theactualwhatlol = new spokenword( { where: random.me, what: 'please' });
-            decision.ineedtoact = true;
             decision.idecidedthis = true;
+            decision.ineedtoact = true;
         }
         else if (whatineedtoknow.thewhat == 'when i say hi, you say hi back to me. understand') {
             const sampleunderstanding = {
@@ -102,6 +103,7 @@ const brain = {
                 thewhat: say(),
                 theactualwhatlol = new spokenword({ where: random.me, what: 'hi' }),
                 idecidedthis: true,
+                ineedtoact: true
             };
 
             const sampleevent = {
@@ -111,8 +113,8 @@ const brain = {
 
             decision.thewhat = learn();
             decision.theactualwhat = new pathway({
-                whatwasunderstood: sampleunderstanding,
-                whatwasdecided: sampledecision,
+                whatiunderstood: sampleunderstanding,
+                whatidecided: sampledecision,
                 whatidid: sampleevent
             });
             decision.ineedtoact = true;
@@ -140,12 +142,12 @@ const brain = {
             decision.idecidedthis = true;
         }
 
-
         if (brain.control.decisionblock == decision.thewhat) {
             // you can only make one decision
             decision.idecidedthis = false;
         }
 
+        // action hook
         if (decision.ineedtoact) {
             brain.act(decision);
         }
@@ -201,9 +203,9 @@ class spokenword {
 };
 
 class pathway {
-    constructor(whatwasunderstood, whatwasdecided, whatidid) {
-        this.whatwasunderstood = whatwasunderstood;
-        this.whatwasdecided = whatwasdecided;
+    constructor(whatiunderstood, whatidecided, whatidid) {
+        this.whatiunderstood = whatiunderstood;
+        this.whatidecided = whatidecided;
         this.whatidid = whatidid;
     };
 };
@@ -233,6 +235,5 @@ body.on('start', () => {
             return;
         }
         brain.understand(noise);
-
     });
 });
