@@ -56,6 +56,11 @@ const newbody = {
     heart: new heartbeats.createHeart(100, name())
 };
 
+const body = new slackbots({
+    token: random.slacktoken,
+    name: name()
+});
+
 // brain
 const brain = {
     // ill try to keep this simple
