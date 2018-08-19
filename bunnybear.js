@@ -6,6 +6,7 @@ const slackbots = require('slackbots');
 //const slackbots = require('./lifesupport');
 const heartbeats = require('heartbeats');
 const axios = require('axios');
+const _ = require('underscore');
 const action = require('./action/action');
 
 // ****************************************************************************************
@@ -20,8 +21,8 @@ const random = {
     mentalblocks: {
         reasonblock: 'message' ,
         userblock: true,
-        decisionblock: 'say',
-        actionblock: 'speak',
+        decisionblock: ['say', 'remember'],
+        actionblock: ['speak', 'memorize'],
         focustoggle: 10
     }
 };
@@ -36,9 +37,10 @@ const name = () => { 'bunnybear' };
 const heard = () => { return 'heard' };
 // deciding
 const say = () => { return 'say' };
+const remember = () => { return 'remember' };
 // doing
 const speak = () => { return 'speak' };
-const learn = () => { return 'learn' };
+const memorize = () => { return 'memorize' };
 const remind = () => { return 'remind' };
 
 // actions
@@ -116,7 +118,7 @@ const brain = {
         else if (whatineedtoknow.thewhat == 'when i say hi, you say hi back to me. understand') {
             const sampleunderstanding = {
                 thetype: heard(),
-                thewho: random.userme,
+                thewho: random.meuser,
                 thewhat: 'hi'
             };
 
@@ -129,24 +131,23 @@ const brain = {
 
             const sampleevent = {
                 thewhat: speak(),
-                theactualwhatlol: sampledecision.theactualwhatlol
+                theactualwhatlol: sampledecision.theactualwhatlol,
+                idecidedthis: true
             };
 
-            decision.thewhat = learn();
-            decision.theactualwhat = new pathway(
+            decision.thewhat = remember();
+            decision.theactualwhatlol = new pathway(
                 sampleunderstanding,
                 sampledecision,
                 sampleevent
             );
             decision.ineedtoact = true;
             decision.thisisavaliddecision = true;
-
-            return;
         }
         else if (whatineedtoknow.thewhat == 'say hi to me in six seconds') {
             // i am gifting you with time
             decision.thewhat = remind();
-            decision.theactualwhat = new reminder(
+            decision.theactualwhatlol = new reminder(
                 6,
                 {
                     thewhat: say(),
@@ -163,7 +164,7 @@ const brain = {
             decision.thisisavaliddecision = true;
         }
 
-        if (brain.control.decisionblock != decision.thewhat) {
+        if (!brain.control.decisionblock.includes(decision.thewhat)) {
             // you can only make one decision
             decision.thisisavaliddecision = false;
         }
@@ -183,6 +184,11 @@ const brain = {
             ev.theactualwhatlol = whativedecided.theactualwhatlol;
             ev.idecidedthis = whativedecided.thisisavaliddecision;
         }
+        else if (whativedecided.thewhat == remember()) {
+            ev.thewhat == memorize();
+            ev.theactualwhatlol = whativedecided.theactualwhatlol;
+            ev.idecidedthis = whativedecided.thisisavaliddecision;
+        }
 
         // take action
         // you cannot act without decision
@@ -191,7 +197,7 @@ const brain = {
         }
 
         // you can only do one thing
-        if (brain.control.actionblock == ev.thewhat) {
+        if (!brain.control.actionblock.includes(ev.thewhat)) {
             rewirebodyaction(actions.act(ev));
         }
     }

@@ -2,7 +2,7 @@ const bunnybear = require('../bunnybear');
 const memories = require('../memories/learned.json');
 
 // const speak = () => { return 'speak'; };
-const learn = () => { return 'learn'; };
+const memorize = () => { return 'memorize'; };
 
 const body = bunnybear.body;
 const brain = bunnybear.brain;
@@ -15,8 +15,8 @@ class action {
             case 'speak':
                 return this.speak(ev);
                 //return;
-            case learn():
-                this.learn(ev);
+            case memorize():
+                this.memorize(ev);
                 return;
             default:
                 return;
@@ -29,13 +29,14 @@ class action {
         // bunnybear.body.postMessageToUser(words.where, words.what);
     };
 
-    learn(ev) {
+    memorize(ev) {
         // learn
         // you need the entire understand decision act chain to learn
 
         // you now remember
         // your decisions must now consider what you already know
-        memories.add(ev);
+        console.log('e')
+        memories.memories.add(ev);
     };
 
     remind(ev) {
