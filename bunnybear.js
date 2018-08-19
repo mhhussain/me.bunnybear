@@ -6,6 +6,7 @@ const slackbots = require('slackbots');
 //const slackbots = require('./lifesupport');
 const heartbeats = require('heartbeats');
 const axios = require('axios');
+const action = require('./action/action');
 
 // ****************************************************************************************
 // playing god
@@ -19,8 +20,8 @@ const random = {
     mentalblocks: {
         reasonblock: 'message' ,
         userblock: true,
-        decisionblock: say(),
-        actionblock: speak(),
+        decisionblock: 'say',
+        actionblock: 'speak',
         focustoggle: 10
     }
 };
@@ -39,6 +40,9 @@ const say = () => { return 'say' };
 const speak = () => { return 'speak' };
 const learn = () => { return 'learn' };
 const remind = () => { return 'remind' };
+
+// actions
+const actions = new action();
 
 // ****************************************************************************************
 // creation
@@ -60,6 +64,10 @@ const body = new slackbots({
     token: random.slacktoken,
     name: name()
 });
+// your body is strong and lets make it stronger
+const rewirebodyaction = (words) => {
+    body.postMessageToUser(words.where, words.what);
+};
 
 // brain
 const brain = {
@@ -80,7 +88,7 @@ const brain = {
 
         var reasoning = {};
 
-        if (whathappened.type == heard()) {
+        if (whathappened.type == 'message') {
             reasoning.thetype = heard();
             reasoning.thewho = whathappened.user;
             reasoning.thewhat = whathappened.text;
@@ -101,8 +109,8 @@ const brain = {
 
         if (whatineedtoknow.thewhat == 'let me teach you something') {
             decision.thewhat = say();
-            decision.theactualwhatlol = new spokenword( { where: random.me, what: 'please' });
-            decision.idecidedthis = true;
+            decision.theactualwhatlol = new spokenword(random.me, 'please');
+            decision.thisisavaliddecision = true;
             decision.ineedtoact = true;
         }
         else if (whatineedtoknow.thewhat == 'when i say hi, you say hi back to me. understand') {
@@ -114,8 +122,8 @@ const brain = {
 
             const sampledecision = {
                 thewhat: say(),
-                theactualwhatlol = new spokenword({ where: random.me, what: 'hi' }),
-                idecidedthis: true,
+                theactualwhatlol: new spokenword(random.me, 'hi'),
+                thisisavaliddecision: true,
                 ineedtoact: true
             };
 
@@ -125,39 +133,39 @@ const brain = {
             };
 
             decision.thewhat = learn();
-            decision.theactualwhat = new pathway({
-                whatiunderstood: sampleunderstanding,
-                whatidecided: sampledecision,
-                whatidid: sampleevent
-            });
+            decision.theactualwhat = new pathway(
+                sampleunderstanding,
+                sampledecision,
+                sampleevent
+            );
             decision.ineedtoact = true;
-            decision.idecidedthis = true;
+            decision.thisisavaliddecision = true;
 
             return;
         }
         else if (whatineedtoknow.thewhat == 'say hi to me in six seconds') {
             // i am gifting you with time
             decision.thewhat = remind();
-            decision.theactualwhat = new reminder({
-                when: 6,
-                what: {
+            decision.theactualwhat = new reminder(
+                6,
+                {
                     thewhat: say(),
-                    theactualwhatlol: new spokenword({ where: random.me, what: 'hi' })
+                    theactualwhatlol: new spokenword(random.me, 'hi')
                 }
-            });
+            );
             decision.ineedtoact = true;
-            decision.idecidedthis = true;
+            decision.thisisavaliddecision = true;
         }
         else {
             decision.thewhat = say();
             decision.theactualwhatlol = new spokenword(random.me, 'i am here, but i do not understand');
             decision.ineedtoact = true;
-            decision.idecidedthis = true;
+            decision.thisisavaliddecision = true;
         }
 
-        if (brain.control.decisionblock == decision.thewhat) {
+        if (brain.control.decisionblock != decision.thewhat) {
             // you can only make one decision
-            decision.idecidedthis = false;
+            decision.thisisavaliddecision = false;
         }
 
         // action hook
@@ -166,17 +174,14 @@ const brain = {
         }
     },
     act: (whatineedtodo) => {
-        // you can only do one thing
         const whativedecided = whatineedtodo;
-        if (brain.control.actionblock != whativedecided.thewhat) {
-            return;
-        }
 
         var ev = {};
 
         if (whativedecided.thewhat == say()) {
             ev.thewhat = speak();
-            ev.theactualwhatlol = whativedecided.theactualwhatlol
+            ev.theactualwhatlol = whativedecided.theactualwhatlol;
+            ev.idecidedthis = whativedecided.thisisavaliddecision;
         }
 
         // take action
@@ -185,8 +190,9 @@ const brain = {
             return;
         }
 
+        // you can only do one thing
         if (brain.control.actionblock == ev.thewhat) {
-            action.act(ev);
+            rewirebodyaction(actions.act(ev));
         }
     }
 };
@@ -197,10 +203,6 @@ const getchannels = () => {
         console.log(gift)
     });
 };
-
-// your actions
-const action = require('./action/action');
-
 
 // ****************************************************************************************
 // parts

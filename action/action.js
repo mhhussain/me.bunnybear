@@ -1,5 +1,5 @@
-const bunnybear = require('../bunnbear');
-const memories = require('./memories/learned.json');
+const bunnybear = require('../bunnybear');
+const memories = require('../memories/learned.json');
 
 // const speak = () => { return 'speak'; };
 const learn = () => { return 'learn'; };
@@ -8,15 +8,15 @@ const body = bunnybear.body;
 const brain = bunnybear.brain;
 const heart = bunnybear.heart;
 
-class action({
+class action {
     act(ev) {
-        switch ev.thewhat {
+        switch (ev.thewhat) {
             // this is
             case 'speak':
-                speak(ev);
-                return;
+                return this.speak(ev);
+                //return;
             case learn():
-                learn(ev);
+                this.learn(ev);
                 return;
             default:
                 return;
@@ -25,7 +25,8 @@ class action({
 
     speak(ev) {
         const words = ev.theactualwhatlol
-        body.postMessageToUser(words.where, words.what);
+        return words;
+        // bunnybear.body.postMessageToUser(words.where, words.what);
     };
 
     learn(ev) {
@@ -41,11 +42,11 @@ class action({
         const whatneedstohappen = ev.what;
         const whenitneedstohappen = ev.when;
         // when will always be seconds
-        heart.createEvent(whenitneedstohappen * 10, { countTo: 1 }, (count, last) {
+        heart.createEvent(whenitneedstohappen * 10, { countTo: 1 }, (count, last) => {
             act(whatneedstohappen);
         });
 
     }
-})
+};
 
 module.exports = action;
