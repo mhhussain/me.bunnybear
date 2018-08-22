@@ -11,6 +11,8 @@ class brain {
         this.purpose = mold.purpose;
         this.control = mold.mentalblocks;
         this.forcedecision = mold.forcedecision;
+
+        this.dead = false;
     };
 
     understand(stimulus) {

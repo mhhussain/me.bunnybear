@@ -10,6 +10,8 @@ class body {
         // set up your inputs
         this.slackear = ears();
         this.slackmouth = this.slackear;
+
+        this.dead = false;
     };
 
     speakout(words) {
