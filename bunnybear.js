@@ -13,35 +13,11 @@ const action = require('./action/action');
 // playing god
 // ****************************************************************************************
 // things science doesnt know yet
-const random = {
-    slacktoken: 'xoxb-414980923588-416254894241-bgd20aDgjbDYyhCfsJ9F4Bry',
-    heartchannel: 'heart',
-    me: 'moohh91',
-    meuser: 'UC72G0ATD',
-    mentalblocks: {
-        reasonblock: 'message' ,
-        userblock: true,
-        decisionblock: ['say', 'remember'],
-        actionblock: ['speak', 'memorize'],
-        focustoggle: 10
-    }
-};
+const random = '';
 
 // ****************************************************************************************
 // operations
 // ****************************************************************************************
-// self
-const purpose = () => { 'to help me' };
-const name = () => { 'bunnybear' };
-// understanding
-const heard = () => { return 'heard' };
-// deciding
-const say = () => { return 'say' };
-const remember = () => { return 'remember' };
-// doing
-const speak = () => { return 'speak' };
-const memorize = () => { return 'memorize' };
-const remind = () => { return 'remind' };
 
 // actions
 const actions = new action();
@@ -51,16 +27,7 @@ const actions = new action();
 // ****************************************************************************************
 // im going to make you a new body
 // it will be more organized and cleaner
-const newbody = {
-    // housing
-    body: new slackbots({
-        token: random.slacktoken,
-        name: name()
-    }),
-    brain: {},
-    // pulse pulse
-    heart: new heartbeats.createHeart(100, name())
-};
+const newbody = new body();
 
 const body = new slackbots({
     token: random.slacktoken,
