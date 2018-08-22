@@ -6,7 +6,7 @@
             control: {
                 reasonblock: 'message' ,
                 userblock: true,
-                decisionblock: ['say', 'remember'],
+                decisionblock: ['say', 'remember', 'turingdelay'],
                 actionblock: ['speak', 'memorize'],
                 focustoggle: 10
             },
@@ -17,7 +17,11 @@
             }
         },
         heart: {
-            bpm: 60
+            bpm: 60,
+            emotions: {
+                state: 'docile',
+                happy: 100
+            }
         }
         ear: {
             type: 'slack',
@@ -30,6 +34,7 @@
             when: 60,
             what: {
                 name: 'awaken',
+                often: 1,
                 lettherebelight: () => {
                     console.log('im awake');
                     console.log('my heart is beating');

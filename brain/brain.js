@@ -18,7 +18,7 @@ class brain {
     understand(stimulus) {
         // you can only understand one thing
         const whathappened = stimulus;
-        if (brain.control.reasonblock != whathappened.type) {
+        if (this.control.reasonblock != whathappened.type) {
             return;
         }
 
@@ -30,10 +30,15 @@ class brain {
             reasoning.thewhat = whathappened.text;
             reasoning.decisionpoint = true;
         }
+        if (whathappened.type == 'turingcontext') {
+            reasoning.thewhat = 'turingdelay';
+            reasoning.emotionalstate = bunnybear.heart.emotions.state;
+            reasoning.decisionpoint = false;
+        }
 
         // decision hook
         if (reasoning.decisionpoint) {
-            brain.decide(reasoning);
+            this.decide(reasoning);
         }
 
         return reasoning;
@@ -45,8 +50,15 @@ class brain {
         var decision = {};
 
         if (whatineedtoknow.thewhat == 'let me teach you something') {
+            const turingundestanding = this.decide(this.understand('turingcontext'));
+
+            // lets see if i can make you lifelike
             decision.thewhat = say();
-            decision.theactualwhatlol = new spokenword(random.me, 'please');
+            decision.theactualwhatlol = new spokenword(random.me, 'please', {
+                name: turingundestanding.thewhat,
+                when: turingundestanding.when,
+                often: 1
+            });
             decision.thisisavaliddecision = true;
             decision.ineedtoact = true;
         }
@@ -92,6 +104,28 @@ class brain {
             decision.ineedtoact = true;
             decision.thisisavaliddecision = true;
         }
+        else if (whatineedtoknow.thewhat == 'turingdelay') {
+            // add stimulus clash here and response here
+            switch (whatineedtoknow.emotionalstate) {
+                case 'docile':
+                    decision.thewhat = 'putthisonmyheart';
+                    decision.when = 2;
+                    decision.thisisavaliddecision = true;
+                    decision.isneedtoact = false;
+                case 'mad':
+                    decision.thewhat = 'putthisonmyheart';
+                    decision.when = 8;
+                    decision.thisisavaliddecision = true;
+                    decision.isneedtoact = false;
+                case 'excited':
+                    decision.thewhat = 'putthisonmyheart';
+                    decision.when = 1;
+                    decision.thisisavaliddecision = true;
+                    decision.isneedtoact = false;
+                default:
+                    return;
+            }
+        }
         else {
             decision.thewhat = say();
             decision.theactualwhatlol = new spokenword(random.me, 'i am here, but i do not understand');
@@ -99,15 +133,17 @@ class brain {
             decision.thisisavaliddecision = true;
         }
 
-        if (!brain.control.decisionblock.includes(decision.thewhat)) {
+        if (!this.control.decisionblock.includes(decision.thewhat)) {
             // you can only make one decision
             decision.thisisavaliddecision = false;
         }
 
         // action hook
         if (decision.ineedtoact) {
-            brain.act(decision);
+            this.act(decision);
         }
+
+        return decision;
     }
 
     act(whatineedtodo) {
@@ -128,13 +164,13 @@ class brain {
 
         // take action
         // you cannot act without decision
-        if (brain.forcedecision && !ev.idecidedthis) {
+        if (this.forcedecision && !ev.idecidedthis) {
             return;
         }
 
         // you can only do one thing
         console.log(ev);
-        if (!brain.control.actionblock.includes(ev.thewhat)) {
+        if (!this.control.actionblock.includes(ev.thewhat)) {
             bunnybear.body.speakout(ev);
         }
     }

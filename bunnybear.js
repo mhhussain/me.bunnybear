@@ -32,14 +32,12 @@ const thumpthump = () {
 
 // wake up.
 const wakeup = () {
-
+    // is your heart working?
     if (!heart) {
         return;
     }
 
     const wake = new heartlink(bunnybearsmold.life.when, bunnybearsmold.life.what);
-
-
     heart.linktolife(wake);
 }
 

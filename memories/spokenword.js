@@ -1,7 +1,8 @@
 class spokenword {
-    constructor(where, what) {
+    constructor(where, what, turing) {
         this.where = where;
         this.what = what;
+        this.turing = turing;
     }
 }
 
