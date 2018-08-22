@@ -1,10 +1,13 @@
+const bunnybear = require('../bunnybear');
 const spokenword = require('../memories/spokenword');
 const pathway = require('../memories/pathway');
 const reminder = require('../memories/reminder');
 
 class brain {
-    constructor() {
-
+    constructor(mold) {
+        this.purpose = mold.purpose;
+        this.control = mold.mentalblocks;
+        this.forcedecision = mold.forcedecision;
     };
 
     understand(stimulus) {
@@ -127,7 +130,7 @@ class brain {
         // you can only do one thing
         console.log(ev);
         if (!brain.control.actionblock.includes(ev.thewhat)) {
-            rewirebodyaction(actions.act(ev));
+            bunnybear.body.speakout(ev);
         }
     }
 }
