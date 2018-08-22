@@ -30,7 +30,26 @@
             when: 60,
             what: {
                 name: 'awaken',
-                lettherebelight: () => { console.log('im awake') }
+                lettherebelight: () => {
+                    console.log('im awake');
+                    console.log('my heart is beating');
+
+                    if (bunnybear.brain.dead) {
+                        console.log('my brain is not working');
+                    }
+                    else {
+                        console.log('my brain is functioning');
+                    }
+
+                    if (bunnybear.body.dead) {
+                        console.log('my body is not working');
+                    }
+                    else {
+                        console.log('my body is functioning');
+                    }
+
+                    console.log('what now?');
+                }
             }
         }
     }

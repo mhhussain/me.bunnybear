@@ -1,36 +1,50 @@
 // ****************************************************************************************
-// the part we cant understand. big bang?
-// ****************************************************************************************
-const heartbeats = require('heartbeats');
-const axios = require('axios');
-const _ = require('underscore');
-
-// ****************************************************************************************
 // playing god
 // ****************************************************************************************
 // things science doesnt know yet
 const bunnybearsmold = require('./secrets/mold');
-const heart = require('./heart/heart');
-const brain = require('./brain/brain');
-const body = require('./brain/brain');
+const h = require('./heart/heart');
+const b = require('./brain/brain');
+const bd = require('./brain/brain');
 
 // ****************************************************************************************
 // creation
 // ****************************************************************************************
-// brain
-const brain = new brain(mold);
+// mold
+const mold = bunnybearsmold;
 
 // heart
-const heart = new heart(mold);
+const heart = new h(mold);
+
+// brain
+const brain = new b(mold);
 
 // body
-const body = new body(mold);
+const body = new bd(mold);
 
 // would you like feet?
 
+const thumpthump = () {
+    if (!heart) {
+        heart = new h(mold);
+    }
+}
 
 // wake up.
-() => {
+const wakeup = () {
+
+    if (!heart) {
+        return;
+    }
+
     const wake = new heartlink(bunnybearsmold.life.when, bunnybearsmold.life.what);
+
+
     heart.linktolife(wake);
 }
+
+module.exports = {
+    brain: brain,
+    heart: heart,
+    body: body
+};
