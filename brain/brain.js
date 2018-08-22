@@ -1,10 +1,13 @@
+// you
 const bunnybear = require('../bunnybear');
+
 const spokenword = require('../memories/spokenword');
 const pathway = require('../memories/pathway');
 const reminder = require('../memories/reminder');
 
 class brain {
     constructor(mold) {
+        this.mold = mold;
         this.purpose = mold.purpose;
         this.control = mold.mentalblocks;
         this.forcedecision = mold.forcedecision;

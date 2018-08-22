@@ -1,11 +1,13 @@
-const slackbots = require('slackbots');
-const random = require('../secrets/random');
+// you
 const bunnybear = require('../bunnybear')
 
+const slackbots = require('slackbots');
+
 class ears {
-    constructor(name, ear) {
-        this.name = name;
-        this.ear = ear;
+    constructor(mold) {
+        this.mold = mold;
+        this.name = mold.name;
+        this.ear = mold.ear;
         create();
     }
 
@@ -19,7 +21,7 @@ class ears {
 
             body.on('start', () => {
                 body.on('message', (sound) => {
-                    if (noise.user != random.meuser) {
+                    if (noise.user != this.ear.meuser) {
                         return;
                     }
                     bunnybear.brain.understand(noise);

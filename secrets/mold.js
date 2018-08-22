@@ -1,12 +1,8 @@
 {
     mold: {
-        name: 'bunnybear'
-        ear: {
-            type: 'slack',
-            token: 'xoxb-414980923588-416254894241-bgd20aDgjbDYyhCfsJ9F4Bry'
-        },
+        name: 'bunnybear',
         brain: {
-            purpose: '',
+            purpose: 'to help me',
             control: {
                 reasonblock: 'message' ,
                 userblock: true,
@@ -19,10 +15,14 @@
               listen: 1,
               learn: 1
             }
+        },
+
+        ear: {
+            type: 'slack',
+            token: 'xoxb-414980923588-416254894241-bgd20aDgjbDYyhCfsJ9F4Bry',
+            heart: 'heart',
+            me: 'moohh91',
+            meuser: 'UC72G0ATD'
         }
-    },
-    heartchannel: 'heart',
-    me: 'moohh91',
-    meuser: 'UC72G0ATD',
-    mentalblocks:
+    }
 }
