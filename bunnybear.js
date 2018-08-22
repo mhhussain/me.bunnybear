@@ -185,7 +185,7 @@ const brain = {
             ev.idecidedthis = whativedecided.thisisavaliddecision;
         }
         else if (whativedecided.thewhat == remember()) {
-            ev.thewhat == memorize();
+            ev.thewhat = memorize();
             ev.theactualwhatlol = whativedecided.theactualwhatlol;
             ev.idecidedthis = whativedecided.thisisavaliddecision;
         }
@@ -197,6 +197,7 @@ const brain = {
         }
 
         // you can only do one thing
+        console.log(ev);
         if (!brain.control.actionblock.includes(ev.thewhat)) {
             rewirebodyaction(actions.act(ev));
         }

@@ -16,6 +16,7 @@ class action {
                 return this.speak(ev);
                 //return;
             case memorize():
+                console.log(ev);
                 this.memorize(ev);
                 return;
             default:
