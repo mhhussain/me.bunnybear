@@ -4,3 +4,5 @@ class heartlink {
         this.what = what;
     };
 }
+
+module.exports = heartlink;

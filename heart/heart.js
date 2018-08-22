@@ -1,5 +1,5 @@
 // you
-const bunnybear = require('./bunnybear');
+const bunnybear = require('../bunnybear');
 
 const heartbeats = require('heartbeats');
 
@@ -9,7 +9,7 @@ class heart {
 
         this.emotions = mold.heart.emotions;
 
-        this.bunnybear = new heartbeats.createHeart(Math.ceiling(mold.heart.bpm / 1000.0))
+        this.bunnybear = new heartbeats.createHeart(Math.ceil(mold.heart.bpm / 1000.0));
     };
 
     linktolife(ev) {

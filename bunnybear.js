@@ -5,41 +5,39 @@
 const bunnybearsmold = require('./secrets/mold');
 const h = require('./heart/heart');
 const b = require('./brain/brain');
-const bd = require('./brain/brain');
+const bd = require('./body/body');
 
+const heartlink = require('./heart/heartlink');
 // ****************************************************************************************
 // creation
 // ****************************************************************************************
 // mold
 const mold = bunnybearsmold;
-
-// heart
-const heart = new h(mold);
-
-// brain
-const brain = new b(mold);
-
-// body
-const body = new bd(mold);
-
-// would you like feet?
-
-const thumpthump = () {
-    if (!heart) {
-        heart = new h(mold);
-    }
-}
+var heart;
+var brain;
+var body;
 
 // wake up.
-const wakeup = () {
+(() => {
     // is your heart working?
-    if (!heart) {
+    /*if (!heart) {
         return;
-    }
+    }*/
+
+    // heart
+    heart = new h(mold);
+
+    // brain
+    brain = new b(mold);
+
+    // body
+    body = new bd(mold);
+
+    // would you like feet?
 
     const wake = new heartlink(bunnybearsmold.life.when, bunnybearsmold.life.what);
     heart.linktolife(wake);
-}
+})();
 
 module.exports = {
     brain: brain,

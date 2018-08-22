@@ -3,13 +3,14 @@ const bunnybear = require('../bunnybear');
 
 const slackbots = require('slackbots');
 
+const ear = require('./ears');
 const heartlink = require('../heart/heartlink');
 
 class body {
     constructor(mold) {
         this.mold = mold;
         // set up your inputs
-        this.slackear = ears();
+        this.slackear = this.ears();
         this.slackmouth = this.slackear;
 
         this.dead = false;
@@ -33,9 +34,10 @@ class body {
         new heartlink(turingcontrolledaction.when, turingcontrolledaction.what);
     };
 
-    private ears() {
+    ears() {
         // you only understand slack
-        return new ear(this.mold.name, this.mold.ear);
+        const slackear = new ear(this.mold);
+        slackear.create();
     };
 }
 

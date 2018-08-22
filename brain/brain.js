@@ -3,7 +3,7 @@ const bunnybear = require('../bunnybear');
 
 const spokenword = require('../memories/spokenword');
 const pathway = require('../memories/pathway');
-const reminder = require('../memories/reminder');
+const reminder = require('../memories/remind');
 
 class brain {
     constructor(mold) {
