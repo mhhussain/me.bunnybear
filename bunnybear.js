@@ -13,7 +13,7 @@ const heartlink = require('./heart/heartlink');
 // ****************************************************************************************
 // mold
 const mold = bunnybearsmold;
-var heart;
+var heart = new heart(bunnybearsmold);
 var brain;
 var body;
 
