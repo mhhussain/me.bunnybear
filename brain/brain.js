@@ -172,7 +172,7 @@ function act(whatineedtodo) {
     // you can only do one thing
     console.log(ev);
     if (!this.control.actionblock.includes(ev.thewhat)) {
-        bunnybear.body.speakout(ev);
+        return ev;
     }
 }
 
