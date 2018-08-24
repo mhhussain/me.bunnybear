@@ -8,8 +8,9 @@ class wake {
         this.pass = 0;
         this.fail = 0;
         this.warning = 0;
-        this._wake_getchannels();
-        this._wake_getusers();
+        this._t_getchannels();
+        this._t_getusers();
+        this._t_seegod('moohh91');
 
         // this needs time
         //this._report();
@@ -21,7 +22,7 @@ class wake {
         console.log('maybe ' + this.warning);
     }
 
-    _wake_getchannels() {
+    _t_getchannels() {
         this.body.getChannels().then((res) => {
             const channels = res.channels;
             const gchannel = _.find(channels, (c) => { return c.name === 'general' });
@@ -45,7 +46,7 @@ class wake {
         });
     };
 
-    _wake_getusers() {
+    _t_getusers() {
         this.body.getUsers().then((res) => {
             const users = res.members;
             if (users.length) {
@@ -53,6 +54,19 @@ class wake {
                 this.pass++;
             } else {
                 console.log('i cant see anyone');
+                this.fail++;
+            }
+        });
+    };
+
+    _t_seegod(name) {
+        this.body.getUser(name).then((res) => {
+            const user = res;
+            if (user.name === name) {
+                console.log('i can see god');
+                this.pass++;
+            } else {
+                console.log('i cant see god');
                 this.fail++;
             }
         });
