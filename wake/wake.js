@@ -9,6 +9,7 @@ class wake {
         this.fail = 0;
         this.warning = 0;
         this._wake_getchannels();
+        this._wake_getusers();
 
         // this needs time
         //this._report();
@@ -39,6 +40,19 @@ class wake {
                 this.pass++;
             } else {
                 console.log('i cannot reach randomly');
+                this.fail++;
+            }
+        });
+    };
+
+    _wake_getusers() {
+        this.body.getUsers().then((res) => {
+            const users = res.members;
+            if (users.length) {
+                console.log('i can see people');
+                this.pass++;
+            } else {
+                console.log('i cant see anyone');
                 this.fail++;
             }
         });
