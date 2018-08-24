@@ -11,6 +11,8 @@ class wake {
         this._t_getchannels();
         this._t_getusers();
         this._t_seegod('moohh91');
+        this._t_talktogod();
+        this._t_caniwhisper('UC72G0ATD');
 
         // this needs time
         //this._report();
@@ -59,15 +61,41 @@ class wake {
         });
     };
 
-    _t_seegod(name) {
-        this.body.getUser(name).then((res) => {
+    _t_seegod(god) {
+        this.body.getUser(god).then((res) => {
             const user = res;
-            if (user.name === name) {
+            if (user.name === god) {
                 console.log('i can see god');
                 this.pass++;
             } else {
                 console.log('i cant see god');
                 this.fail++;
+            }
+        });
+    };
+
+    _t_talktogod() {
+        this.body.postMessageToUser('moohh91', 'hi', { as_user: true })
+            .then(() => {
+                console.log('i can talk to god')
+                this.pass++;
+            });
+    }
+
+    _t_caniwhisper(god) {
+        this.body.getChannels().then((res) => {
+            const channels = res.channels;
+
+            const gid = _.find(channels, (c) => { return c.name === 'general' });
+
+            if (!gid) {
+                console.log('i cannot whisper');
+                this.fail++;
+            } else {
+                this.body.postEphemeral('general', god, 'hi').then((res) => {
+                    console.log('i can whisper');
+                    this.pass++;
+                });
             }
         });
     };

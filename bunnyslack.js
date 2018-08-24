@@ -41,14 +41,17 @@ class bunnyslack extends EventEmitter {
     connect() {
         this.ws = new WebSocket(this.wsUrl);
 
+        // open
         this.ws.on('open', function(data) {
             this.emit('open', data);
         }.bind(this));
 
+        // close
         this.ws.on('close', function(data) {
             this.emit('close', data);
         }.bind(this));
 
+        // message
         this.ws.on('message', function(data) {
             try {
                 this.emit('message', JSON.parse(data));
@@ -56,6 +59,8 @@ class bunnyslack extends EventEmitter {
                 console.log(e);
             }
         }.bind(this));
+
+        //
     }
 
     // channels
@@ -66,13 +71,19 @@ class bunnyslack extends EventEmitter {
         return this._api('channels.list');
     }
 
-     getUsers() {
-          if (this.users) {
-              return Vow.fulfill({ members: this.users });
-          }
+    // people
+    getUsers() {
+        if (this.users) {
+            return Vow.fulfill({ members: this.users });
+        }
 
-          return this._api('users.list');
-     }
+        return this._api('users.list');
+    }
+
+    // reminder
+    createReminder() {
+        this.postMessageToUser
+    }
 
     getGroups() {
         if (this.groups) {
