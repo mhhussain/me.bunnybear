@@ -5,6 +5,7 @@ const _ = require('underscore');
 class wake {
     constructor(vessel) {
         this.body = vessel;
+        this.tests = 0;
         this.pass = 0;
         this.fail = 0;
         this.warning = 0;
@@ -27,6 +28,7 @@ class wake {
     };
 
     _t_getchannels() {
+        this.tests++;
         this.body.getChannels().then((res) => {
             const channels = res.channels;
             const gchannel = _.find(channels, (c) => { return c.name === 'general' });
@@ -51,6 +53,7 @@ class wake {
     };
 
     _t_getusers() {
+        this.tests++;
         this.body.getUsers().then((res) => {
             const users = res.members;
             if (users.length) {
@@ -64,6 +67,7 @@ class wake {
     };
 
     _t_seegod(god) {
+        this.tests++;
         this.body.getUser(god).then((res) => {
             const user = res;
             if (user.name === god) {
@@ -77,16 +81,16 @@ class wake {
     };
 
     _t_talktogod() {
-        this.fail++;
+        this.tests++;
         this.body.postMessageToUser('moohh91', 'hi', { as_user: true })
             .then(() => {
                 console.log('i can talk to god');
                 this.pass++;
-                this.fail--;
             });
     };
 
     _t_caniwhisper(god) {
+        this.tests++;
         this.body.getChannels().then((res) => {
             const channels = res.channels;
 
@@ -105,24 +109,31 @@ class wake {
     };
 
     _t_caniremind(user) {
-
-        this.fail++;
+        this.tests++;
         this.body.postReminder(user, 'i have to tell you something', 'in ten seconds', {})
             .then((res) => {
                 const reminder = res.reminder;
                 if (reminder.text === 'i have to tell you something') {
                     console.log('i can remember');
                     this.pass++;
-                    this.fail--;
                 } else {
                     console.log('i cannot remember');
+                    this.fail++;
                 }
             });
     };
 
     _t_caniseereminders() {
-        this.body.getReminders().then((r) => {
-            console.log(r);
+        this.tests++;
+        this.body.getReminders().then((res) => {
+            const reminders = res.reminders;
+            if (reminders) {
+                console.log('i can see reminders');
+                this.pass++;
+            } else {
+                console.log('i cannot see reminders');
+                this.fail++;
+            }
         });
     }
 
