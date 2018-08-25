@@ -191,6 +191,7 @@ class bunnyslack extends EventEmitter {
 
     // reminders
     getReminders() {
+        return this._api('reminders.list', null, true);
     }
 
     // add reminder

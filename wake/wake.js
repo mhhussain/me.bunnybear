@@ -14,6 +14,7 @@ class wake {
         this._t_talktogod();
         this._t_caniwhisper('UC72G0ATD');
         this._t_caniremind();
+        this._t_caniseereminders();
 
         // this needs time
         //this._report();
@@ -118,6 +119,12 @@ class wake {
                 }
             });
     };
+
+    _t_caniseereminders() {
+        this.body.getReminders().then((r) => {
+            console.log(r);
+        });
+    }
 
     yes() {
         return this.pass;
