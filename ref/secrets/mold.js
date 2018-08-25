@@ -24,7 +24,7 @@ const mold = {
     },
     ear: {
         type: 'slack',
-        token: 'xoxb-414980923588-416254894241-bgd20aDgjbDYyhCfsJ9F4Bry',
+        token: '',
         heart: 'heart',
         me: 'moohh91',
         meuser: 'UC72G0ATD'
