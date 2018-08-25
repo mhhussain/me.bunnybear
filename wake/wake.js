@@ -13,6 +13,7 @@ class wake {
         this._t_seegod('moohh91');
         this._t_talktogod();
         this._t_caniwhisper('UC72G0ATD');
+        this._t_caniremind();
 
         // this needs time
         //this._report();
@@ -22,7 +23,7 @@ class wake {
         console.log('yes ' + this.pass);
         console.log('no ' + this.fail);
         console.log('maybe ' + this.warning);
-    }
+    };
 
     _t_getchannels() {
         this.body.getChannels().then((res) => {
@@ -75,12 +76,14 @@ class wake {
     };
 
     _t_talktogod() {
+        this.fail++;
         this.body.postMessageToUser('moohh91', 'hi', { as_user: true })
             .then(() => {
-                console.log('i can talk to god')
+                console.log('i can talk to god');
                 this.pass++;
+                this.fail--;
             });
-    }
+    };
 
     _t_caniwhisper(god) {
         this.body.getChannels().then((res) => {
@@ -100,6 +103,22 @@ class wake {
         });
     };
 
+    _t_caniremind(user) {
+
+        this.fail++;
+        this.body.postReminder(user, 'i have to tell you something', 'in ten seconds', {})
+            .then((res) => {
+                const reminder = res.reminder;
+                if (reminder.text === 'i have to tell you something') {
+                    console.log('i can remember');
+                    this.pass++;
+                    this.fail--;
+                } else {
+                    console.log('i cannot remember');
+                }
+            });
+    };
+
     yes() {
         return this.pass;
     };
@@ -112,7 +131,5 @@ class wake {
         return this.warning;
     };
 }
-
-
 
 module.exports = wake;

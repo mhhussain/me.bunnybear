@@ -12,6 +12,7 @@ class bunnyslack extends EventEmitter {
      constructor(params) {
          super(params);
          this.token = params.token;
+         this.wptoken = params.wptoken;
          this.name = params.name;
 
          console.assert(params.token, 'token must be defined');
@@ -78,11 +79,6 @@ class bunnyslack extends EventEmitter {
         }
 
         return this._api('users.list');
-    }
-
-    // reminder
-    createReminder() {
-        this.postMessageToUser
     }
 
     getGroups() {
@@ -193,6 +189,23 @@ class bunnyslack extends EventEmitter {
         return this._api('im.list');
     }
 
+    // reminders
+    getReminders() {
+    }
+
+    // add reminder
+    postReminder(user, text, time, params) {
+        params = extend({
+            text: text,
+            time: time,
+            user: user,
+            wptoken: true,
+            username: this.name
+        }, params || {});
+
+        return this._api('reminders.add', params, true);
+    }
+
     postEphemeral(id, user, text, params) {
         params = extend({
             text: text,
@@ -291,8 +304,8 @@ class bunnyslack extends EventEmitter {
         return name;
     }
 
-    _preprocessParams(params) {
-        params = extend(params || {}, {token: this.token});
+    _preprocessParams(params, wpt) {
+        params = extend(params || {}, {token: !wpt ? this.token : this.wptoken});
 
         Object.keys(params).forEach(function(name) {
             var param = params[name];
@@ -305,10 +318,10 @@ class bunnyslack extends EventEmitter {
         return params;
     }
 
-    _api(methodName, params) {
+    _api(methodName, params, wpt) {
         var data = {
             url: 'https://slack.com/api/' + methodName,
-            form: this._preprocessParams(params)
+            form: this._preprocessParams(params, wpt)
         };
 
         return new Vow.Promise(function(resolve, reject) {
