@@ -2,9 +2,9 @@
   "name": "me.bunnybear",
   "version": "1.0.0",
   "description": "Let's give it a shot.",
-  "main": "bunnybear.js",
+  "main": "injector.js",
   "scripts": {
-    "start": "node bunnybear.js"
+    "start": "node injector.js"
   },
   "author": "yes",
   "license": "ISC",
