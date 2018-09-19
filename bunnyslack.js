@@ -25,10 +25,10 @@ class bunnyslack extends EventEmitter {
             this.wsUrl = data.url;
             this.self = data.self;
             this.team = data.team;
-            this.channels = data.channels;
-            this.users = data.users;
-            this.ims = data.ims;
-            this.groups = data.groups;
+            this.channels = null;//data.channels;
+            this.users = null;//data.users;
+            this.ims = null;//data.ims;
+            this.groups = null;//data.groups;
 
             this.emit('start');
 
@@ -79,6 +79,33 @@ class bunnyslack extends EventEmitter {
         }
 
         return this._api('users.list');
+    }
+
+    // get group history
+    getGroupHistory(name, params) {
+        params = extend({
+            channel: name,
+            count: 1000
+        }, params || {});
+
+        return this._api('groups.history', params, true);
+    }
+
+    getConversations() {
+        if (this.groups) {
+            return Vow.fulfill({ groups: this.groups });
+        }
+
+        return this._api('conversations.list');
+    }
+
+    getChannelHistory(name, params) {
+        params = extend({
+            channel: name,
+            count: 1000
+        }, params || {});
+
+        return this._api('channels.history', params, true);
     }
 
     getGroups() {
@@ -194,6 +221,7 @@ class bunnyslack extends EventEmitter {
         return this._api('reminders.list', null, true);
     }
 
+    // reminders by id
     getReminder(id) {
         return this._api('reminders.info', null, true);
     }
@@ -209,6 +237,16 @@ class bunnyslack extends EventEmitter {
         }, params || {});
 
         return this._api('reminders.add', params, true);
+    }
+
+    // create channels
+    createGroup(name, params) {
+        params = extend({
+            name: name,
+            validate: true
+        }, params || {});
+
+        return this._api('groups.create', params, true);
     }
 
     postEphemeral(id, user, text, params) {
