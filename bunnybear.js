@@ -35,6 +35,8 @@ bunnybear.prototype.handlemessage = function() {
         return;
     }
 
+    console.log(this.cmd);
+
     const cmdtext = this.cmd.text;
 
     if (cmdtext.substr(0, 4) === '::cm') {
@@ -72,6 +74,8 @@ bunnybear.prototype.handlemessage = function() {
                     this.injector.postMessageToUser('moohh91', ret);
                 });
             });
+        } else {
+            this.injector.postMessageToUser('moohh91', 'buzz off.');
         }
     }
 
