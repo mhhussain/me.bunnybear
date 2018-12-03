@@ -19,10 +19,11 @@ class wake {
         
         // create
         this._t_caniremind('UC72G0ATD', this.randomnumber);
+        this._t_caniseereminders('RmEJDTGZ34')
         
         // access
-        setTimeout(() => {this._t_caniseereminders(this.randomnumber)}, 1500);
-        setTimeout(() => {this._t_caniunderstandreminders(this.randomnumber)}, 1500);
+        setTimeout(() => {this._t_caniseereminders(this.randomnumber)}, 10000);
+        setTimeout(() => {this._t_caniunderstandreminders(this.randomnumber)}, 10000);
 
         // this needs time
         //this._report();
@@ -134,7 +135,7 @@ class wake {
         this.tests++;
         this.body.getReminders().then((res) => {
             const reminder = _.find(res.reminders, (r) => {
-                return r.text === randomnumber
+                return r.id === randomnumber
             });
 
             if (reminder) {

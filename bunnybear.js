@@ -79,6 +79,28 @@ bunnybear.prototype.handlemessage = function() {
         }
     }
 
+    if (cmdtext.substr(0, 12) === 'remind me to') {
+        const remindtext = cmdtext.substr(13);
+
+        const reminder = remindtext.split('[a]');
+        const rrng = '[' + Math.ceil(Math.random() * 1000) + ']';
+        const rmsg = rrng + '[' + reminder[0].trim() + ']';
+        const rtime = reminder[1];
+
+        this.injector.postReminder('UC72G0ATD', rmsg, rtime)
+            .then((res) => {
+                const rres = res.reminder;
+                const id = rres.id;
+
+                console.log(rres);
+
+                this.injector.getReminder(id).then((ires) => {
+                    console.log(ires);
+                });
+            });
+        this.injector.postMessageToGroup('unsorted_dev', rmsg);
+    }
+
     return;
 
     /*if (cmdtext.substr(0,4) === '::cm') {
