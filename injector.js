@@ -13,7 +13,7 @@ const slacki = new bunnyslack({
 slacki.on('start', () => {
     // new wake(slacki);
     console.log('im awake.');
-})
+});
 
 slacki.on('message', (message) => {
     new bunnybear(slacki, message);

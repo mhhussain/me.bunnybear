@@ -1,9 +1,9 @@
-const _ = require('underscore');
+let _ = require('underscore');
 
 // wake the vessel
 
 class wake {
-    constructor(vessel) {
+    letructor(vessel) {
         this.body = vessel;
         this.tests = 0;
         this.pass = 0;
@@ -19,7 +19,7 @@ class wake {
         
         // create
         this._t_caniremind('UC72G0ATD', this.randomnumber);
-        this._t_caniseereminders('RmEJDTGZ34')
+        this._t_caniseereminders('RmEHRXET4G')
         
         // access
         setTimeout(() => {this._t_caniseereminders(this.randomnumber)}, 10000);
@@ -38,9 +38,9 @@ class wake {
     _t_getchannels() {
         this.tests++;
         this.body.getChannels().then((res) => {
-            const channels = res.channels;
-            const gchannel = _.find(channels, (c) => { return c.name === 'general' });
-            const rchannel = _.find(channels, (c) => { return c.name === 'random' });
+            let channels = res.channels;
+            let gchannel = _.find(channels, (c) => { return c.name === 'general' });
+            let rchannel = _.find(channels, (c) => { return c.name === 'random' });
 
             if (gchannel) {
                 console.log('i can reach generally');
@@ -63,7 +63,7 @@ class wake {
     _t_getusers() {
         this.tests++;
         this.body.getUsers().then((res) => {
-            const users = res.members;
+            let users = res.members;
             if (users.length) {
                 console.log('i can see people');
                 this.pass++;
@@ -77,7 +77,7 @@ class wake {
     _t_seegod(god) {
         this.tests++;
         this.body.getUser(god).then((res) => {
-            const user = res;
+            let user = res;
             if (user.name === god) {
                 console.log('i can see god');
                 this.pass++;
@@ -100,9 +100,9 @@ class wake {
     _t_caniwhisper(god) {
         this.tests++;
         this.body.getChannels().then((res) => {
-            const channels = res.channels;
+            let channels = res.channels;
 
-            const gid = _.find(channels, (c) => { return c.name === 'general' });
+            let gid = _.find(channels, (c) => { return c.name === 'general' });
 
             if (!gid) {
                 console.log('i cannot whisper');
@@ -120,7 +120,7 @@ class wake {
         this.tests++;
         this.body.postReminder(user, randomnumber, 'in a minute', {})
             .then((res) => {
-                const reminder = res.reminder;
+                let reminder = res.reminder;
                 if (reminder.text === randomnumber) {
                     console.log('i can remember');
                     this.pass++;
@@ -134,7 +134,7 @@ class wake {
     _t_caniseereminders(randomnumber) {
         this.tests++;
         this.body.getReminders().then((res) => {
-            const reminder = _.find(res.reminders, (r) => {
+            let reminder = _.find(res.reminders, (r) => {
                 return r.id === randomnumber
             });
 
@@ -151,13 +151,13 @@ class wake {
     _t_caniunderstandreminders(randomnumber) {
         this.tests++;
         this.body.getReminders().then((res) => {
-            const r = _.find(res.reminders, (r1) => {
+            let r = _.find(res.reminders, (r1) => {
                 return r1.text === randomnumber && !r1.completed_ts;
             });
 
             this.body.getReminder(r.id).then((res1) => {
                 console.log(res1)
-                const r2 = _.find(res1, (r3) => {
+                let r2 = _.find(res1, (r3) => {
                     return r3.text === randomnumber && !r3.complete_ts;
                 });
 

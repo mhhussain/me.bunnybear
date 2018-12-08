@@ -1,6 +1,9 @@
-const _ = require('lodash');
+let q = require('q');
+let _ = require('lodash');
+let chrono = require('chrono-node');
+let moment = require('moment');
 
-const projector = require('./injector');
+let projector = require('./injector');
 
 var cmdmode = false;
 var cmdbag = {};
@@ -14,7 +17,7 @@ function bunnybear(injector, cmd) {
 
 bunnybear.prototype.handlecommand = function() {
     if (cmdmode) {
-        const evcmd = cmd.substr(5)
+        let evcmd = cmd.substr(5)
             .replace(/‘/g, String.fromCharCode(39))
             .replace(/’/g, String.fromCharCode(39));
         console.log(cmd);
@@ -24,6 +27,26 @@ bunnybear.prototype.handlecommand = function() {
     } else {
         return;
     }
+}
+
+bunnybear.prototype.handleremind = function(imsg) {
+    let rng = Math.ceil(Math.random() * 1000);
+
+    let split = imsg.split('[a]');
+    let msg = split[0].trim();
+    let time = split[1];
+    let parsedtime = moment(chrono.parseDate(time)).format('llll');
+
+    let reminderobj = {
+        id: rng,
+        original: imsg,
+        split,
+        slackmsg: '[' + rng + '][' + msg + ']',
+        slacktime: parsedtime,
+        usermsg: '\nID: ' + rng + '\nTX: ' + msg + '\nTM: ' + parsedtime
+    };
+
+    return reminderobj;
 }
 
 bunnybear.prototype.handlemessage = function() {
@@ -37,32 +60,32 @@ bunnybear.prototype.handlemessage = function() {
 
     console.log(this.cmd);
 
-    const cmdtext = this.cmd.text;
+    let cmdtext = this.cmd.text;
 
     if (cmdtext.substr(0, 4) === '::cm') {
-        const command = cmdtext.substr(5);
+        let command = cmdtext.substr(5);
 
         // create concept
         if (command.substr(0, 14) === 'create concept') {
-            const concept = command.substr(15);
-            const pad = n => n <= 99999 ? ('00000' + n).slice(-5): n;
-            const groupname = concept.substr(0, 17).concat(pad(Math.ceil(Math.random()*10000)));
+            let concept = command.substr(15);
+            let pad = n => n <= 99999 ? ('00000' + n).slice(-5): n;
+            let groupname = concept.substr(0, 17).concat(pad(Math.ceil(Math.random()*10000)));
 
             this.injector.createGroup(groupname).then(() => {
                 this.injector.postMessageToUser('moohh91', channelname + ' has been created.');
             });
         } else if (command.substr(0, 14) === 'flush concept') {
-            const concept = command.substr(15);
+            let concept = command.substr(15);
             
             this.injector.getConversations().then((res) => {
-                const channels = res.channels;
-                const flushchannel = _.find(channels, (channel) => {
-                    const channelname = channel.name;
+                let channels = res.channels;
+                let flushchannel = _.find(channels, (channel) => {
+                    let channelname = channel.name;
                     return channelname.substr(channelname.length-5) === '01090';
                 });
 
                 this.injector.getChannelHistory(flushchannel.id).then((res) => {
-                    const messages = res.messages;
+                    let messages = res.messages;
                     
                     var ret = '';
                     _.forEach(messages, (message) => {
@@ -80,25 +103,17 @@ bunnybear.prototype.handlemessage = function() {
     }
 
     if (cmdtext.substr(0, 12) === 'remind me to') {
-        const remindtext = cmdtext.substr(13);
+        let remindtext = cmdtext.substr(13);
 
-        const reminder = remindtext.split('[a]');
-        const rrng = '[' + Math.ceil(Math.random() * 1000) + ']';
-        const rmsg = rrng + '[' + reminder[0].trim() + ']';
-        const rtime = reminder[1];
+        let rem = this.handleremind(remindtext);
+        let a = [
+            this.injector.postReminder('UC72G0ATD', rem.slackmsg, rem.slacktime),
+            this.injector.postMessageToGroup('unsorted_dev', rem.usermsg)
+        ];
 
-        this.injector.postReminder('UC72G0ATD', rmsg, rtime)
-            .then((res) => {
-                const rres = res.reminder;
-                const id = rres.id;
-
-                console.log(rres);
-
-                this.injector.getReminder(id).then((ires) => {
-                    console.log(ires);
-                });
-            });
-        this.injector.postMessageToGroup('unsorted_dev', rmsg);
+        q.all(a).then(() => {
+            console.log('reminded');
+        });
     }
 
     return;
