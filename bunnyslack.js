@@ -107,6 +107,15 @@ class bunnyslack extends EventEmitter {
 
         return this._api('channels.history', params, true);
     }
+     
+    getGroupHistory(name, params) {
+        params = extend({
+            channel: name,
+            count: 100
+        }, params || {});
+
+        return this._api('groups.history', params, true);
+    }
 
     getGroups() {
         if (this.groups) {
