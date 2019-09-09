@@ -1,0 +1,29 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "tolove.fullname" . }}
+  labels:
+{{ include "tolove.labels" . | indent 4 }}
+spec:
+  schedule: {{ .Values.cronSchedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+        {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
+          containers:
+          - name: {{ .Chart.Name }}
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            env:
+            - name: TWILIO_ACC_SID
+              value: {{ .Values.twilio.sid | quote }}
+            - name: TWILIO_AUTH_TOKEN
+              value: {{ .Values.twilio.authToken | quote }}
+            - name: FROM_NUMBER
+              value: {{ .Values.twilio.fromNumber | quote }}
+            - name: TO_NUMBER
+              value: {{ .Values.toNumber | quote }}
+          restartPolicy: Never

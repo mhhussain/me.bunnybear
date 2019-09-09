@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: bunnybear-tolove
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+         containers:
+         - name: bunnybear-tolove
+           image: moohh/bunnybear.tolove
+           env:
+           - name: TWILIO_ACC_SID
+             value: "ACcfec176c2ebcdf29d0ecd8ea8d91c64f"
+           - name: TWILIO_AUTH_TOKEN
+             value: "383773f9be8e81ee5bb7980e8f0cf485"
+           - name: FROM_NUMBER
+             value: "+16088027683"
+           - name: TO_NUMBER
+             value: "+18184452995"
+         restartPolicy: Never

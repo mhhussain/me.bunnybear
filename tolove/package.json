@@ -1,0 +1,24 @@
+{
+  "name": "tolove",
+  "version": "1.0.0",
+  "description": "",
+  "main": "love.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node love.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mhhussain/me.bunnybear.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mhhussain/me.bunnybear/issues"
+  },
+  "homepage": "https://github.com/mhhussain/me.bunnybear#readme",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "twilio": "^3.34.0"
+  }
+}
