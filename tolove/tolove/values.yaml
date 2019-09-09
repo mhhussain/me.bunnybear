@@ -11,12 +11,12 @@ image:
 
 cronSchedule: "*/1 * * * *"
 
-toNumber: "+18184452995"
+toNumber: ""
 
 twilio:
-  sid: ACcfec176c2ebcdf29d0ecd8ea8d91c64f
-  authToken: 383773f9be8e81ee5bb7980e8f0cf485
-  fromNumber: "+16088027683"
+  sid: 
+  authToken: 
+  fromNumber: ""
 
 imagePullSecrets: []
 nameOverride: ""
