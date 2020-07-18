@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/mhhussain/me.bunnybear#readme",
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "twilio": "^3.34.0"
   }
 }
