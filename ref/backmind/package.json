@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
-    "chrono-node": "^1.3.5",
+    "chrono-node": "^2.2.4",
     "heartbeats": "^5.0.1",
     "kafka-node": "^2.6.1",
     "moment": "^2.22.2",
